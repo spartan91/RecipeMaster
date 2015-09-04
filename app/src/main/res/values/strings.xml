@@ -1,11 +1,26 @@
 <resources>
     <string name="app_name">RecipeMaster</string>
+    <string name="facebook_app_id">1069264563085522</string>
+
     <!--Activity Main-->
     <string name="title_activity_main">RecipeMaster</string>
+    <string name="login_with_facebook">Zaloguj przez facebooka</string>
+    <string name="logout_with_facebook">Wyloguj</string>
+    <string name="get_recipe">Get the recipe</string>
+
+    <string name="logout_dialog_title">Hey?</string>
+    <string name="logout_dialog_content">Logout from facebook?</string>
+    <string name="logout_dialog_logout">Logout</string>
+    <string name="logout_dialog_cancel">Cancel</string>
+
+    <string name="logout">Logout successful.</string>
+    <string name="login_successful">Successful login</string>
+    <string name="login_cancelled">Login with Facebook cancelled.</string>
 
 
     <string name="action_settings">Settings</string>
 
     <!--Activity Details-->
     <string name="title_activity_details">Recipe</string>
+
 </resources>

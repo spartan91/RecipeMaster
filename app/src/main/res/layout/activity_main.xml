@@ -95,7 +95,7 @@
             app:fab_colorPressed="@color/material_red_700"
             app:fab_icon="@drawable/ic_get"
             app:fab_size="mini"
-            app:fab_title="Get the recipe" />
+            app:fab_title="@string/get_recipe" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_login_fb"
@@ -105,7 +105,7 @@
             app:fab_colorPressed="@color/material_blue_700"
             app:fab_icon="@drawable/ic_fb"
             app:fab_size="mini"
-            app:fab_title="Zaloguj przez facebooka" />
+            app:fab_title="@string/login_with_facebook" />
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 
