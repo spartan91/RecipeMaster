@@ -51,18 +51,6 @@
 
     </RelativeLayout>
 
-    <!--<android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add_white_24dp"
-        android:clickable="true"
-        app:borderWidth="0dp"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"/>-->
     <View
         android:id="@+id/view_backcover"
         android:layout_width="fill_parent"

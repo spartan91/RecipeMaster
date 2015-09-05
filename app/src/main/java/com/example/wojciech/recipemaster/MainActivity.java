@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.wojciech.recipemaster.utils.ConnectivityUtil;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -56,14 +57,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             protected void onCurrentProfileChanged(Profile profile, Profile currentProfile) {
                                 profileTracker.stopTracking();
-                                facebookUserProfile=currentProfile;
+                                facebookUserProfile = currentProfile;
                                 if (currentProfile != null) {
-                                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.login_successful)+" " +facebookUserProfile.getFirstName()+" :)" , Snackbar.LENGTH_LONG)
+                                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.login_successful) + " " + facebookUserProfile.getFirstName() + " :)", Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
                                 }
-                                setUserLogedState();
+                                updateUserLogedState();
                             }
+
                         };
+                        updateUserProfile();
+                        updateUserLogedState();
                         profileTracker.startTracking();
 
 
@@ -79,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
+        /*Login User if has loged before*/
+        updateUserProfile();
 
 
         setContentView(R.layout.activity_main);
@@ -87,10 +93,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            //doesnt need to be used anymore
-            //actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
+
+
         backCoverView = (View) findViewById(R.id.view_backcover);
         backCoverView.setOnClickListener(this);
         menuMultipleActions = (FloatingActionsMenu) findViewById(R.id.fab_menu);
@@ -113,13 +119,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         floatingActionButtonGetRecipe.setOnClickListener(this);
         floatingActionButtonLoginWithFacebook.setOnClickListener(this);
 
-        setUserLogedState();
+        updateUserLogedState();
+
+    }
+
+    private void updateUserProfile() {
+        if (isUserLoggedInWithFacebook()) {
+            facebookUserProfile = Profile.getCurrentProfile();
+            if (facebookUserProfile == null) {
+                Log.d(TAG, "Profile is null while user is loged");
+                updateUserLogedState();
+            } else {
+                Log.d(TAG, "Profile exists");
+            }
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         AppEventsLogger.activateApp(this);
+        if (menuMultipleActions != null && menuMultipleActions.isExpanded())
+            menuMultipleActions.collapse();
+        updateUserProfile();
     }
 
     @Override
@@ -127,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
         AppEventsLogger.deactivateApp(this);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -150,11 +171,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -163,12 +179,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.fab_get_recipe:
                 Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-                //intent.putExtra(DetailActivity.EXTRA_CV, cV);
+                if (facebookUserProfile != null && isUserLoggedInWithFacebook()) {
+                    intent.putExtra(DetailsActivity.EXTRA_PROFILENAME, facebookUserProfile.getName());
+                    intent.putExtra(DetailsActivity.EXTRA_AVATAR_URI, facebookUserProfile.getProfilePictureUri(64, 64).toString());
+                }
                 startActivity(intent);
                 break;
             case R.id.fab_login_fb:
                 if (!isUserLoggedInWithFacebook())
-                    LoginManager.getInstance().logInWithReadPermissions(MainActivity.this, Arrays.asList("public_profile", "user_friends"));
+                    if (ConnectivityUtil.isNetworkAvailable(MainActivity.this)) {
+                        LoginManager.getInstance().logInWithReadPermissions(MainActivity.this, Arrays.asList("public_profile", "user_friends"));
+                    } else {
+                        Toast.makeText(MainActivity.this, getString(R.string.error_network_connection), Toast.LENGTH_LONG).show();
+                    }
                 else {
                     new MaterialDialog.Builder(this)
                             .title(R.string.logout_dialog_title)
@@ -181,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     LoginManager.getInstance().logOut();
                                     Snackbar.make(findViewById(android.R.id.content), getString(R.string.logout), Snackbar.LENGTH_SHORT)
                                             .setAction("Action", null).show();
-                                    setUserLogedState();
+                                    updateUserLogedState();
                                 }
                             }).show();
 
@@ -194,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void setUserLogedState() {
+    private void updateUserLogedState() {
         if (isUserLoggedInWithFacebook()) {
             floatingActionButtonLoginWithFacebook.setTitle(getString((R.string.logout_with_facebook)));
         } else {

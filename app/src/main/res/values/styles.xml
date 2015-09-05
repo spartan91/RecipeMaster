@@ -15,17 +15,12 @@
         <item name="android:textColor">@color/tertiary_text_material_light</item>
     </style>
 
-    <style name="FabStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <!--<item name="android:layout_margin">@dimen/fab_compat_margin</item>-->
-        <item name="android:layout_margin">@dimen/fab_margin</item>
-        <item name="android:src">@drawable/ic_add_white_24dp</item>
-        <item name="android:clickable">true</item>
-        <item name="borderWidth">0dp</item>
-        <item name="elevation">6dp</item>
-        <item name="pressedTranslationZ">12dp</item>
-        <item name="rippleColor">@color/material_blue_700</item>
+    <style name="Widget.CardContent" parent="android:Widget">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+        <item name="android:orientation">vertical</item>
     </style>
 
 </resources>

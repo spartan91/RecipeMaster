@@ -13,6 +13,7 @@
     <string name="logout_dialog_logout">Logout</string>
     <string name="logout_dialog_cancel">Cancel</string>
 
+
     <string name="logout">Logout successful.</string>
     <string name="login_successful">Successful login</string>
     <string name="login_cancelled">Login with Facebook cancelled.</string>
@@ -22,5 +23,26 @@
 
     <!--Activity Details-->
     <string name="title_activity_details">Recipe</string>
+    <string name="title_recipe">Recipe!</string>
+
+    <string name="recipe_preparing">Preparing:</string>
+    <string name="recipe_ingredients">Ingredients:</string>
+    <string name="recipe_images">Images:</string>
+
+
+    <string name="download_dialog_title">Hey?</string>
+    <string name="download_dialog_content">Chcesz pobrać oryginalny obrazek czy tylko zapisać widoczny?</string>
+    <string name="download_dialog_positive">Pobierz</string>
+    <string name="download_dialog_cancel">Anuluj</string>
+    <string name="download_dialog_save">Zapisz</string>
+
+
+    <string name="image_saved">Obrazek zapisano pomyślnie.</string>
+    <string name="error_image_download">Wystąpił błąd w pobieraniu obrazka.</string>
+    <string name="error_image_exists">Wskazany obrazek istnieje w pamięci telefonu.</string>
+    <string name="image_downloaded">Obrazek pobrano pomyślnie.</string>
+
+
+    <string name="error_network_connection">Please check network connection.</string>
 
 </resources>
