@@ -1,2 +1,2 @@
 # RecipeMaster
-MoodupLabs RecipeMaster project request
+RecipeMaster project
